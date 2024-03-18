@@ -5,7 +5,7 @@ const Logo = () => {
   return (
     <Link href="/">
       <div>
-        <div className="bg-#bb2700  w-[150px] h-[100px] flex items-center justify-center">
+        <div className="bg-#bb2700  w-[150px] h-[100px] flex items-center justify-center ml-6">
           <Image
             src="/logo_wine.svg"
             width={150}

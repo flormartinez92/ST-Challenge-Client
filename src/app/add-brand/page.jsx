@@ -5,8 +5,10 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const AddBrand = () => {
+  const { user } = useSelector((state) => state.auth);
   const [messageAlert, setMessageAlert] = useState("");
   const [messageOk, setMessageOk] = useState("");
   const {
@@ -61,6 +63,11 @@ const AddBrand = () => {
       }
     }
   };
+
+  if (!user || !user.isAdmin) {
+    router.push("/");
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-230px)]">

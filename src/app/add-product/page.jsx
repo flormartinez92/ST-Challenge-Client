@@ -6,13 +6,14 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const AddProduct = () => {
+  const { user } = useSelector((state) => state.auth);
   const [messageAlert, setMessageAlert] = useState("");
   const [messageOk, setMessageOk] = useState("");
   const [selectedBrandId, setSelectedBrandId] = useState(null);
   const [brands, setBrands] = useState([]);
-  // const [status, setStatus] = useState(false);
   const {
     onChange: onChangeProductname,
     value: valueProductname,
@@ -112,7 +113,10 @@ const AddProduct = () => {
     !brand ? setSelectedBrandId(null) : setSelectedBrandId(brand.id);
   };
 
-  console.log("VER SELECTED BRAND ID", selectedBrandId);
+  if (!user || !user.isAdmin) {
+    router.push("/");
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-230px)]">

@@ -3,18 +3,19 @@
 import { setCredentials } from "@/state/features/authSlice";
 import { fetchUser } from "@/utils/fetchUser";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   RiAdminLine,
   RiLoginCircleLine,
   RiLogoutCircleLine,
 } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-// import AdminMenu from "./AdminMenu";
+import AdminMenu from "./AdminMenu";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const [open, setOpen] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -40,10 +41,14 @@ const Navbar = () => {
     dispatch(setCredentials(null));
   };
 
+  const handleAdminMenu = () => {
+    setOpen(!open);
+  };
+
   return (
     <>
-      {/* <AdminMenu /> */}
-      <div className="w-[220px] h-[100px] flex items-center justify-center space-x-6">
+      {open && <AdminMenu onClose={handleAdminMenu} />}
+      <div className=" h-[100px] flex items-center justify-center space-x-4 mr-4">
         {user === null && (
           <Link href="/login">
             <RiLoginCircleLine className=" text-white text-4xl" />
@@ -51,20 +56,22 @@ const Navbar = () => {
         )}
         {user !== null && user.isAdmin && (
           <>
-            {/* <Link href="/admin-panel"> */}
-            <button className=" bg-slate-700 py-2 rounded-md w-[60px] flex justify-center items-center">
-              {/* <p className="text-white">Panel</p> */}
+            <button
+              onClick={handleAdminMenu}
+              className=" py-2 rounded-md w-[60px] flex justify-center items-center"
+            >
               <RiAdminLine className=" text-white text-4xl" />
             </button>
-
-            {/* </Link> */}
             <button onClick={handleLogout}>
               <RiLogoutCircleLine className=" text-white text-4xl" />
             </button>
           </>
         )}
         {user !== null && !user.isAdmin && (
-          <button onClick={handleLogout}>
+          <button
+            onClick={handleLogout}
+            className=" py-2 rounded-md w-[60px] flex justify-center items-center"
+          >
             <RiLogoutCircleLine className=" text-white text-4xl" />
           </button>
         )}

@@ -6,8 +6,10 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const UpdateBrand = () => {
+  const { user } = useSelector((state) => state.auth);
   const [brands, setBrands] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [messageAlert, setMessageAlert] = useState("");
@@ -87,6 +89,11 @@ const UpdateBrand = () => {
       valueBrandLogo = selectedBrand.logoUrl;
     }
   }, [selectedBrand]);
+
+  if (!user || !user.isAdmin) {
+    router.push("/");
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-230px)]">

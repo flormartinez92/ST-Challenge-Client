@@ -7,9 +7,12 @@ import { fetchProducts } from "@/utils/fetchProducts";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const UpdateProduct = () => {
+  const { user } = useSelector((state) => state.auth);
   const [brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState(null);
@@ -41,6 +44,7 @@ const UpdateProduct = () => {
     onBlur: blurProductPrice,
     onFocus: focusProductPrice,
   } = useInput("productprice");
+  const router = useRouter();
 
   const fetchData = async () => {
     try {
@@ -127,6 +131,11 @@ const UpdateProduct = () => {
       valueProductPrice = selectedProduct.price;
     }
   }, [selectedProduct]);
+
+  if (!user || !user.isAdmin) {
+    router.push("/");
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-230px)]">
