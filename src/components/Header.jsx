@@ -4,9 +4,11 @@ import Navbar from "./Navbar";
 
 const Header = () => {
   return (
-    <header className=" bg-slate-400 py-4 flex justify-between items-center">
-      <Logo />
-      <Navbar />
+    <header className=" bg-slate-400 py-3 px-6 drop-shadow-md sticky top-0">
+      <div className="flex flex-row items-center justify-between max-w-[1200px] m-auto">
+        <Logo />
+        <Navbar />
+      </div>
     </header>
   );
 };

@@ -1,50 +1,64 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import ModalProductInfo from "./ModalProductInfo";
+import { fetchProducts } from "@/utils/fetchProducts";
 
-const CardItem = () => {
+const CardItem = ({ allowModal }) => {
   const [products, setProducts] = useState([]);
-  const [modal, setModal] = useState({ open: false, productId: null });
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const fetchProducts = async () => {
+  const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/products`
-      );
-      setProducts(response.data);
+      const products = await fetchProducts();
+      setProducts(products);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchData();
   }, []);
 
   const handleItemClick = async (productId) => {
-    setModal({ open: !modal.open, productId });
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`
+      );
+      setSelectedProduct(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedProduct(null);
   };
 
   return (
     <>
-      <div className="flex flex-wrap justify-center">
+      <div className="flex flex-wrap justify-center select-none">
         {products?.map((product) => (
-          <div
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.1,
+              delay: 0.2,
+              ease: [0, 0.3, 0.2, 0.7],
+            }}
             key={product.id}
             onClick={() => handleItemClick(product.id)}
-            className="m-2 border border-slate-500 rounded-md p-2 w-[270px] max-h-[420px] bg-white shadow-md hover:shadow-2xl transition duration-300 ease-in-out hover:cursor-pointer"
+            className={`m-2 border border-slate-500 rounded-md p-2 w-[270px] max-h-[420px] bg-white shadow-md ${
+              allowModal
+                ? "hover:shadow-2xl transition duration-300 ease-in-out hover:cursor-pointer"
+                : ""
+            } `}
           >
-            {modal.open && (
-              <ModalProductInfo
-                status={modal.open}
-                closeModal={() => setModal({ open: false })}
-                productId={modal.productId}
-              />
-            )}
             <div className="flex items-center justify-center py-3">
               <Image
                 src={product.imageUrl}
@@ -56,7 +70,7 @@ const CardItem = () => {
               />
             </div>
             <div className="flex flex-col items-center min-w-[190px] px-2 space-y-1">
-              <h3 className="text-center text-lg">{product.name}</h3>
+              <h3 className="text-center text-lg capitalize">{product.name}</h3>
               <h4 className="text-center text-sm">
                 Bodega: {product.brand.name}
               </h4>
@@ -64,9 +78,18 @@ const CardItem = () => {
                 .toLocaleString()
                 .replace(",", ".")}`}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
+      <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
+        {selectedProduct && allowModal == true && (
+          <ModalProductInfo
+            status={true}
+            closeModal={closeModal}
+            product={selectedProduct}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };

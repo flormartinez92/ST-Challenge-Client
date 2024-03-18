@@ -1,28 +1,31 @@
 "use client";
 
-import axios from "axios";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-const ModalProductInfo = ({ status, closeModal, productId }) => {
-  const [product, setProduct] = useState([]);
+const ModalProductInfo = ({ status, closeModal, product }) => {
   const dialofRef = useRef(null);
-
-  const fetchProductById = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`
-      );
-      setProduct(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  const dropIn = {
+    hidden: {
+      y: "-100vh",
+      opacity: 0,
+    },
+    visible: {
+      y: "0",
+      opacity: 1,
+      transition: {
+        duration: 0.1,
+        type: "spring",
+        damping: 25,
+        stiffness: 500,
+      },
+    },
+    exit: {
+      y: "100vh",
+      opacity: 0,
+    },
   };
-
-  useEffect(() => {
-    fetchProductById();
-  }, [status, productId]);
 
   useEffect(() => {
     if (status) {
@@ -37,17 +40,20 @@ const ModalProductInfo = ({ status, closeModal, productId }) => {
     };
   }, [status]);
 
-  const handleModalContentClick = (e) => {
-    e.stopPropagation();
-  };
-
   return (
     <>
       {status && (
-        <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-10 ">
-          <div
-            onClick={(e) => handleModalContentClick(e)}
-            className="bg-white rounded-md border border-gray-800 p-4 w-[350px] h-[580px] relative md:w-[600px] md:h-[500px] flex flex-col items-center justify-around space-y-3"
+        <div
+          onClick={closeModal}
+          className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-10 "
+        >
+          <motion.div
+            variants={dropIn}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-md border border-gray-800 p-4 w-[350px] h-[580px] relative md:w-[600px] md:h-[500px] flex flex-col items-center justify-around space-y-3 select-none"
           >
             <h2 className="underline text-lg">{product?.name}</h2>
             <Image
@@ -59,7 +65,7 @@ const ModalProductInfo = ({ status, closeModal, productId }) => {
               objectFit="cover"
             />
             <p className=" text-sm text-center">{product?.description}</p>
-          </div>
+          </motion.div>
         </div>
       )}
     </>

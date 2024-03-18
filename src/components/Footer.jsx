@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="flex flex-col items-center justify-center">
         <Socials
           containerStyles="flex gap-x-6 mx-auto md:mx-0"
-          iconStyles=" text-black text-[40px]"
+          iconStyles=" text-white text-[40px]"
         />
       </div>
     </footer>
