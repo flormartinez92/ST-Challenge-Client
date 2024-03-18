@@ -120,7 +120,7 @@ const AddProduct = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-230px)]">
-      <div className=" border-2 m-6 py-2 rounded-sm w-[280px]">
+      <div className=" border-2 m-6 py-2 rounded-sm w-[340px] md:w-[640px]">
         <form onSubmit={onSubmitForm}>
           <div className="m-4">
             <div>

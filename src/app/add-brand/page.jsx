@@ -43,7 +43,7 @@ const AddBrand = () => {
         }, 1300);
       } else {
         try {
-          const response = await axios.post(
+          await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/api/brands/brand`,
             {
               name: valueBrandname,
@@ -71,7 +71,7 @@ const AddBrand = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-230px)]">
-      <div className=" border-2 m-8 p-2 rounded-sm w-[280px]">
+      <div className=" border-2 m-8 p-2 rounded-sm w-[340px] md:w-[640px]">
         <form onSubmit={onSubmitForm}>
           <div className="m-4">
             <div>

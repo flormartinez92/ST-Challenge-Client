@@ -10,6 +10,11 @@ import { fetchProducts } from "@/utils/fetchProducts";
 const CardItem = ({ allowModal }) => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = products?.slice(indexOfFirstItem, indexOfLastItem);
 
   const fetchData = async () => {
     try {
@@ -22,7 +27,7 @@ const CardItem = ({ allowModal }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentPage]);
 
   const handleItemClick = async (productId) => {
     try {
@@ -39,10 +44,17 @@ const CardItem = ({ allowModal }) => {
     setSelectedProduct(null);
   };
 
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
       <div className="flex flex-wrap justify-center select-none">
-        {products?.map((product) => (
+        {currentItems?.map((product) => (
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -81,6 +93,22 @@ const CardItem = ({ allowModal }) => {
           </motion.div>
         ))}
       </div>
+      <div className="flex justify-center mt-4">
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+          (pageNumber) => (
+            <button
+              key={pageNumber}
+              onClick={() => handlePageChange(pageNumber)}
+              className={`mx-2 px-4 py-2 rounded-md bg-gray-200 ${
+                pageNumber === currentPage ? "bg-gray-400" : ""
+              }`}
+            >
+              {pageNumber}
+            </button>
+          )
+        )}
+      </div>
+
       <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
         {selectedProduct && allowModal == true && (
           <ModalProductInfo

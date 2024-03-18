@@ -9,7 +9,7 @@ import ReduxProvider from "@/state/provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "E-Commerce App",
+  title: "E-Commerce Wine App",
   description: "A simple e-commerce app built with Next.js",
 };
 

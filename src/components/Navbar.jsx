@@ -29,7 +29,7 @@ const Navbar = () => {
         })
       );
     } catch (error) {
-      console.error("Este es el error", error);
+      console.error(error);
     }
   };
 
