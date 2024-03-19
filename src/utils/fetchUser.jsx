@@ -6,6 +6,7 @@ export const fetchUser = async () => {
       `${process.env.NEXT_PUBLIC_API_URL}/api/users/profile`,
       {
         withCredentials: true,
+        credentials: "include",
       }
     );
     return response.data;

@@ -71,7 +71,8 @@ const Register = () => {
               lastname: valueLastname,
               username: valueUsername,
               password: valuePassword,
-            }
+            },
+            { withCredentials: true, credentials: "include" }
           );
           setMessageAlert("");
           setMessageOk("¡Bienvenido!");

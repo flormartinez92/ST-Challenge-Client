@@ -41,6 +41,7 @@ const Navbar = () => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/logout`, {
         withCredentials: true,
+        credentials: "include",
       });
       localStorage.removeItem("user");
       dispatch(setCredentials(null));

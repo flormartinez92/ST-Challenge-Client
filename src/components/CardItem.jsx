@@ -32,7 +32,8 @@ const CardItem = ({ allowModal }) => {
   const handleItemClick = async (productId) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`,
+        { withCredentials: true, credentials: "include" }
       );
       setSelectedProduct(response.data);
     } catch (error) {

@@ -81,7 +81,8 @@ const UpdateBrand = () => {
     try {
       await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/brands/${selectedBrand.id}`,
-        requestData
+        requestData,
+        { withCredentials: true, credentials: "include" }
       );
       setMessageOk("¡Bodega actualizada!");
       setTimeout(() => {
