@@ -6,7 +6,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const [messageAlert, setMessageAlert] = useState("");
@@ -61,6 +61,11 @@ const Login = () => {
               token: data.token,
             })
           );
+          setLocalStorage({
+            username: data.user.username,
+            isAdmin: data.user.isAdmin,
+            token: data.token,
+          });
           setMessageAlert("");
           setMessageOk("¡Bienvenido!");
           router.push("/");
@@ -72,6 +77,14 @@ const Login = () => {
           }, 1300);
         }
       }
+    }
+  };
+
+  const setLocalStorage = (value) => {
+    try {
+      localStorage.setItem("user", JSON.stringify(value));
+    } catch (error) {
+      console.error(error);
     }
   };
 

@@ -148,11 +148,13 @@ To get a local copy of this project up and running, follow these steps:
 
    ```plaintext
    PORT=some_port
-   DB_HOST="some_db_host"
+   DB_NAME=some_db_name
    ACCESS_TOKEN_SECRET="some_access_token_secret"
    ECOMMERCE_WINE_CLIENT_HOST="some_ecommerce_wine_client_host"
    ADMIN_USER="some_admin_user"
    ADMIN_USER_PASSWORD="some_admin_password"
+   DB_USERNAME="some_db_username"
+   DB_PASSWORD="some_db_password"
    ```
 
 5. Start the backend server:

@@ -2,13 +2,20 @@ import React from "react";
 import { RxCrossCircled } from "react-icons/rx";
 import { MdOutlineEdit } from "react-icons/md";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const AdminMenu = ({ onClose }) => {
   return (
     <>
       <div className=" bg-slate-700/50 min-h-screen w-full fixed top-0 left-0 right-0"></div>
 
-      <div className=" bg-slate-800 min-h-screen w-[200px] fixed top-0 right-0 md:w-[400px]">
+      <motion.div
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ duration: 0.5 }}
+        className=" bg-slate-800 min-h-screen w-[200px] fixed top-0 right-0 md:w-[400px]"
+      >
         <div className="flex items-end justify-end mb-14">
           <button
             onClick={onClose}
@@ -29,7 +36,7 @@ const AdminMenu = ({ onClose }) => {
             <MdOutlineEdit />
           </div>
         </Link>
-      </div>
+      </motion.div>
     </>
   );
 };

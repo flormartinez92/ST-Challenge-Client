@@ -1,7 +1,6 @@
 "use client";
 
 import { setCredentials } from "@/state/features/authSlice";
-import { fetchUser } from "@/utils/fetchUser";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {
@@ -11,6 +10,7 @@ import {
 } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import AdminMenu from "./AdminMenu";
+import axios from "axios";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -19,12 +19,12 @@ const Navbar = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetchUser();
+      const response = await JSON.parse(localStorage.getItem("user"));
       if (!response) return;
       dispatch(
         setCredentials({
-          username: response.user.username,
-          isAdmin: response.user.isAdmin,
+          username: response.username,
+          isAdmin: response.isAdmin,
           token: response.token,
         })
       );
@@ -37,8 +37,16 @@ const Navbar = () => {
     fetchData();
   }, []);
 
-  const handleLogout = () => {
-    dispatch(setCredentials(null));
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/logout`, {
+        withCredentials: true,
+      });
+      localStorage.removeItem("user");
+      dispatch(setCredentials(null));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleAdminMenu = () => {
