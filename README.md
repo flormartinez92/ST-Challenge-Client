@@ -3,7 +3,7 @@
 <div align="center">
   <p align="center">
     <h3 align="center">E-Commerce WINE</h3>
-    <a href="#"><strong>See the website »</strong></a>
+    <a href="https://sd-challenge-client.vercel.app/"><strong>See the website »</strong></a>
     <br />
     <a href="https://github.com/flormartinez92/st-challenge-client"><strong>See the frontend repository »</strong></a>
     <br />
