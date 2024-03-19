@@ -3,17 +3,19 @@
 import CardBrand from "@/components/CardBrand";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const ManageBrands = () => {
   const { user } = useSelector((state) => state.auth);
   const router = useRouter();
 
-  if (!user || !user.isAdmin) {
-    router.push("/");
-    return null;
-  }
+  useEffect(() => {
+    if (!user || !user.isAdmin) {
+      router.push("/");
+      return null;
+    }
+  }, []);
 
   return (
     <section className="min-h-[calc(100vh-230px)] max-w-[1200px] m-auto">

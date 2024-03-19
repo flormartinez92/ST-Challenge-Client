@@ -104,6 +104,10 @@ const AddProduct = () => {
   };
 
   useEffect(() => {
+    if (!user || !user.isAdmin) {
+      router.push("/");
+      return null;
+    }
     fetchData();
   }, []);
 
@@ -112,11 +116,6 @@ const AddProduct = () => {
     const brand = brands.find((brand) => brand.id == brandId);
     !brand ? setSelectedBrandId(null) : setSelectedBrandId(brand.id);
   };
-
-  if (!user || !user.isAdmin) {
-    router.push("/");
-    return null;
-  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-230px)]">

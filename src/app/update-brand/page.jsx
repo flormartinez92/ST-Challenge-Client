@@ -49,6 +49,10 @@ const UpdateBrand = () => {
   };
 
   useEffect(() => {
+    if (!user || !user.isAdmin) {
+      router.push("/");
+      return null;
+    }
     fetchData();
   }, [status]);
 
@@ -106,11 +110,6 @@ const UpdateBrand = () => {
       [field]: !prev[field],
     }));
   };
-
-  if (!user || !user.isAdmin) {
-    router.push("/");
-    return null;
-  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-230px)]">

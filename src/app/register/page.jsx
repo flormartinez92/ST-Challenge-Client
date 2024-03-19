@@ -3,7 +3,7 @@
 import useInput from "@/hooks/useInput";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const Register = () => {
   const [messageAlert, setMessageAlert] = useState("");
