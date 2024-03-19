@@ -116,8 +116,7 @@ const UpdateProduct = () => {
     try {
       await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/api/products/${selectedProduct.id}`,
-        requestData,
-        { withCredentials: true, credentials: "include" }
+        requestData
       );
       setMessageOk("¡Producto actualizado!");
       setTimeout(() => {
@@ -136,8 +135,7 @@ const UpdateProduct = () => {
   const handleDeleteProduct = async (e) => {
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/products/${selectedProduct.id}`,
-        { withCredentials: true, credentials: "include" }
+        `${process.env.NEXT_PUBLIC_API_URL}/api/products/${selectedProduct.id}`
       );
       setMessageOk("¡Producto eliminado!");
       setTimeout(() => {

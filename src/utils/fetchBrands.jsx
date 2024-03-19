@@ -3,8 +3,7 @@ import axios from "axios";
 export const fetchBrands = async () => {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/brands`,
-      { withCredentials: true, credentials: "include" }
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brands`
     );
     return response.data;
   } catch (error) {
