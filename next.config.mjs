@@ -18,7 +18,7 @@ const nextConfig = {
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
             key: "Access-Control-Allow-Origin",
-            value: "https://sd-challenge-api.onrender.com",
+            value: "https://sd-challenge-client.vercel.app",
           }, // replace this your actual origin
           {
             key: "Access-Control-Allow-Methods",
